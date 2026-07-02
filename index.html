@@ -163,7 +163,7 @@
   @keyframes scanMove { from { top: -12%; } to { top: 112%; } }
 
   /* ---------- Detection boxes ---------- */
-  .bbox { position: relative; display: inline-block; padding: 20px 30px; }
+  .bbox { position: relative; display: inline-block; padding: 20px 30px; max-width: 100%; }
   .bbox .c { position: absolute; width: 20px; height: 20px; }
   .c.tl { top: 0; left: 0; border-top: 2px solid var(--accent-3); border-left: 2px solid var(--accent-3); }
   .c.tr { top: 0; right: 0; border-top: 2px solid var(--accent-3); border-right: 2px solid var(--accent-3); }
@@ -809,6 +809,34 @@
   }
   footer a { color: var(--accent-2); text-decoration: none; }
 
+  /* ---------- Mobile ---------- */
+  @media (max-width: 600px) {
+    section { padding: 70px 18px; }
+    .hero { padding: 0 14px; }
+    .hero h1 { font-size: clamp(1.9rem, 10.5vw, 2.7rem); letter-spacing: -1px; }
+    .hero-badge { font-size: .78rem; padding: 7px 14px; }
+    .typed-line { font-size: 1.05rem; }
+    .hero-cta { margin-top: 34px; gap: 12px; width: 100%; }
+    .hero-cta .btn { width: min(100%, 340px); text-align: center; }
+    .bbox { padding: 12px 14px; }
+    .bbox-tag { font-size: .64rem; top: -8px; padding: 2px 9px; }
+    .section-title { letter-spacing: -0.5px; }
+    .stats { gap: 12px; }
+    .stat-card { padding: 20px 10px; }
+    .stat-num { font-size: 1.8rem; }
+    .stat-label { font-size: .78rem; }
+    .skill-card, .tech-group { padding: 26px 20px; }
+    .project-card { padding: 46px 20px 26px; }
+    .project-card .project-head { padding-right: 0; }
+    .card-tag { font-size: .6rem; top: 10px; right: 10px; }
+    .layer { padding: 20px 16px; gap: 14px; }
+    .layer-emoji { font-size: 1.5rem; }
+    .contact-links { flex-direction: column; align-items: center; }
+    .contact-links .btn { width: min(100%, 340px); text-align: center; }
+    .hud-corner { display: none; }
+    .marquee span { font-size: .92rem; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
@@ -866,7 +894,7 @@
     <div class="bbox hero-bbox">
       <span class="bbox-tag">ivan_fullstack: 0.99</span>
       <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
-      <h1>Привет, я <span class="gradient-text">Иван</span><br>Fullstack&nbsp;разработчик</h1>
+      <h1>Привет, я <span class="gradient-text">Иван</span><br>Fullstack разработчик</h1>
     </div>
     <p class="typed-line">Пишу на <span class="typed" id="typed"></span><span class="caret"></span></p>
     <div class="hero-cta">
@@ -888,8 +916,8 @@
       </div>
       <div class="stats">
         <div class="stat-card reveal reveal-d1"><div class="stat-num" data-count="4">0</div><div class="stat-label">языка и фреймворка в стеке</div></div>
-        <div class="stat-card reveal reveal-d2"><div class="stat-num" data-count="100">0</div><div class="stat-label">% вовлечённости в проект</div></div>
-        <div class="stat-card reveal reveal-d3"><div class="stat-num" data-count="24">0</div><div class="stat-label">/7 люблю то, что делаю</div></div>
+        <div class="stat-card reveal reveal-d2"><div class="stat-num" data-count="100" data-suffix="%">0</div><div class="stat-label">вовлечённости в проект</div></div>
+        <div class="stat-card reveal reveal-d3"><div class="stat-num" data-count="24" data-suffix="/7">0</div><div class="stat-label">люблю то, что делаю</div></div>
         <div class="stat-card reveal reveal-d4"><div class="stat-num" data-count="1">0</div><div class="stat-label">клик до связи со мной</div></div>
       </div>
     </div>
@@ -1191,7 +1219,7 @@
     (function frame(now) {
       const t = Math.min((now - start) / dur, 1);
       const ease = 1 - Math.pow(1 - t, 3);
-      el.textContent = Math.round(target * ease);
+      el.textContent = Math.round(target * ease) + (el.dataset.suffix || '');
       if (t < 1) requestAnimationFrame(frame);
     })(start);
   }
