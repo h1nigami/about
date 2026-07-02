@@ -12,9 +12,11 @@
 
 ## Хостинг на GitHub Pages
 
-1. Слейте эту ветку в `main`.
-2. В репозитории откройте **Settings → Pages**.
-3. В разделе **Build and deployment** выберите **Deploy from a branch**,
-   ветку `main` и папку `/ (root)`, нажмите **Save**.
-4. Через минуту сайт будет доступен по адресу
-   **https://h1nigami.github.io/about/**
+Деплой автоматический: при каждом пуше в `main` GitHub Actions
+(`.github/workflows/deploy.yml`) публикует сайт в ветку `gh-pages`,
+откуда его раздаёт GitHub Pages.
+
+Сайт: **https://h1nigami.github.io/about/**
+
+Если Pages не включился автоматически: **Settings → Pages →
+Deploy from a branch → `gh-pages` / (root) → Save**.

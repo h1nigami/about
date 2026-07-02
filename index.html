@@ -453,6 +453,33 @@
   .skill-card[data-color="ts"] .skill-bar-fill    { background: linear-gradient(90deg, #235a97, #6aa9e9); }
   .skill-card[data-color="react"] .skill-bar-fill { background: linear-gradient(90deg, #21a1c4, var(--react)); }
 
+  /* ---------- Tech groups ---------- */
+  .tech-groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+    gap: 22px;
+    margin-top: 22px;
+  }
+  .tech-group {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 30px 28px;
+    backdrop-filter: blur(10px);
+    transition: transform .4s cubic-bezier(.22, 1, .36, 1), border-color .4s, box-shadow .4s;
+  }
+  .tech-group:hover {
+    transform: translateY(-6px);
+    border-color: rgba(0, 255, 163, 0.4);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  }
+  .tech-group h3 { font-size: 1.15rem; margin-bottom: 8px; }
+  .tech-group > p { color: var(--text-dim); font-size: .93rem; margin-bottom: 18px; }
+  .tech-group:hover .project-tags span {
+    color: var(--accent-3);
+    border-color: rgba(0, 255, 163, 0.35);
+  }
+
   /* ---------- Marquee ---------- */
   .marquee-wrap {
     overflow: hidden;
@@ -691,7 +718,7 @@
         <span class="section-tag">Обо мне</span>
         <h2 class="section-title">Код от базы данных<br>до <span class="gradient-text">пикселя на экране</span></h2>
         <p>Я fullstack-разработчик и закрываю весь цикл разработки: проектирую API и сервисы на <strong>Go</strong> и <strong>Python</strong>, а интерфейсы собираю на <strong>TypeScript</strong> и <strong>React</strong>.</p>
-        <p>Специализируюсь на сложных индустриальных задачах: <strong>видеоаналитика в реальном времени</strong>, <strong>геосервисы</strong> и <strong>транспортная телематика</strong> — работаю с протоколами JT808, JT1078 и CMSV6 на уровне байтов.</p>
+        <p>Специализируюсь на сложных индустриальных задачах: <strong>видеоаналитика в реальном времени</strong>, <strong>геосервисы</strong> и <strong>транспортная телематика</strong> — работаю с протоколами JT808, JT1078 и CMSV6 на уровне байтов. Обучаю <strong>ML-модели</strong> под задачи компьютерного зрения и довожу их до продакшена.</p>
         <p>Люблю чистую архитектуру, быстрые ответы сервера и интерфейсы, которыми приятно пользоваться. Верю, что хороший продукт — это когда технологии не заметны, а всё просто работает.</p>
       </div>
       <div class="stats">
@@ -707,7 +734,7 @@
   <section id="skills">
     <span class="section-tag reveal">Технологии</span>
     <h2 class="section-title reveal">Мой стек</h2>
-    <p class="section-sub reveal">Четыре инструмента, которые покрывают всё: от высоконагруженного бэкенда до отзывчивого фронтенда.</p>
+    <p class="section-sub reveal">Четыре основных инструмента — и всё, что нужно вокруг них: от очередей и time-series баз до обучения ML-моделей.</p>
 
     <div class="skills-grid">
       <div class="skill-card tilt reveal reveal-d1" data-color="go">
@@ -743,9 +770,26 @@
       </div>
     </div>
 
+    <div class="tech-groups">
+      <div class="tech-group reveal reveal-d1">
+        <h3>⚙️ Backend и данные</h3>
+        <p>Телеметрия транспорта и события с камер требуют правильного инструмента под каждую задачу: очереди — для потоков событий, time-series база — для метрик, кеш — для скорости.</p>
+        <div class="project-tags">
+          <span>Kafka</span><span>Redis</span><span>TimescaleDB</span><span>PostgreSQL</span><span>Docker</span><span>gRPC</span><span>WebSocket</span><span>Nginx</span><span>CI/CD</span><span>Linux</span>
+        </div>
+      </div>
+      <div class="tech-group reveal reveal-d2">
+        <h3>🧠 ML и Computer Vision</h3>
+        <p>Обучал модели для продакшена: детекция СИЗ на видеопотоке — от сбора и разметки датасета до инференса в реальном времени. Понимаю ML-задачи и умею доводить их до работающего сервиса.</p>
+        <div class="project-tags">
+          <span>Обучение моделей</span><span>Детекция объектов</span><span>OpenCV</span><span>Датасеты и разметка</span><span>Real-time инференс</span>
+        </div>
+      </div>
+    </div>
+
     <div class="marquee-wrap reveal">
       <div class="marquee" id="marquee">
-        <span>Go</span><span>Python</span><span>TypeScript</span><span>React</span><span>PostgreSQL</span><span>Docker</span><span>gRPC</span><span>REST API</span><span>FastAPI</span><span>Redis</span><span>Git</span><span>Linux</span><span>CI/CD</span><span>WebSocket</span><span>Computer Vision</span><span>JT808</span><span>JT1078</span><span>CMSV6</span><span>Геокодинг</span>
+        <span>Go</span><span>Python</span><span>TypeScript</span><span>React</span><span>PostgreSQL</span><span>Docker</span><span>gRPC</span><span>REST API</span><span>FastAPI</span><span>Redis</span><span>Git</span><span>Linux</span><span>CI/CD</span><span>WebSocket</span><span>Computer Vision</span><span>JT808</span><span>JT1078</span><span>CMSV6</span><span>Геокодинг</span><span>Kafka</span><span>TimescaleDB</span><span>OpenCV</span><span>ML</span>
       </div>
     </div>
   </section>
@@ -815,7 +859,7 @@
       </div>
       <div class="layer reveal reveal-d3">
         <div class="layer-emoji">🗄️</div>
-        <div><h3>Данные и инфраструктура</h3><p>PostgreSQL, Redis, Docker, CI/CD — чтобы всё разворачивалось одной командой и не падало ночью.</p></div>
+        <div><h3>Данные и инфраструктура</h3><p>PostgreSQL, TimescaleDB, Kafka, Redis, Docker, CI/CD — чтобы всё разворачивалось одной командой и не падало ночью.</p></div>
       </div>
     </div>
   </section>
@@ -922,7 +966,7 @@
     requestAnimationFrame(followRing);
   })();
 
-  document.querySelectorAll('a, button, .skill-card, .stat-card, .layer, .project-card').forEach(el => {
+  document.querySelectorAll('a, button, .skill-card, .stat-card, .layer, .project-card, .tech-group').forEach(el => {
     el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
     el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
   });
