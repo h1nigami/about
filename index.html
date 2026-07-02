@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>h1nigami — Fullstack разработчик</title>
-<meta name="description" content="Fullstack разработчик: Go, Python, TypeScript, React. Создаю быстрые и надёжные веб-приложения.">
+<title>Иван — Fullstack разработчик</title>
+<meta name="description" content="Иван — fullstack разработчик: Go, Python, TypeScript, React. Видеоаналитика в реальном времени, геосервисы, телематика (JT808, JT1078, CMSV6).">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 <style>
   :root {
@@ -480,6 +480,103 @@
   .marquee span:hover { color: var(--accent-2); }
   @keyframes marquee { to { transform: translateX(-50%); } }
 
+  /* ---------- Projects ---------- */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+    gap: 22px;
+    perspective: 1200px;
+  }
+  .project-card {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    backdrop-filter: blur(10px);
+    transition: border-color .4s, box-shadow .4s;
+    transform-style: preserve-3d;
+    will-change: transform;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.07), transparent 45%);
+    opacity: 0;
+    transition: opacity .4s;
+    pointer-events: none;
+  }
+  .project-card:hover::before { opacity: 1; }
+  .project-card:hover {
+    border-color: rgba(0, 212, 255, 0.45);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  }
+  .project-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+    transform: translateZ(35px);
+  }
+  .project-emoji {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    background: rgba(108, 92, 231, 0.14);
+    box-shadow: 0 0 24px rgba(108, 92, 231, 0.15);
+    flex-shrink: 0;
+  }
+  .project-card h3 { font-size: 1.18rem; line-height: 1.3; }
+  .project-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: .74rem;
+    font-weight: 600;
+    color: var(--accent-3);
+    background: rgba(0, 255, 163, 0.08);
+    border: 1px solid rgba(0, 255, 163, 0.25);
+    border-radius: 100px;
+    padding: 4px 12px;
+    margin-top: 8px;
+    width: fit-content;
+  }
+  .project-status .pulse-dot { width: 6px; height: 6px; }
+  .project-card > p {
+    color: var(--text-dim);
+    font-size: .94rem;
+    margin-bottom: 22px;
+    transform: translateZ(20px);
+    flex-grow: 1;
+  }
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    transform: translateZ(25px);
+  }
+  .project-tags span {
+    font-size: .76rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    border: 1px solid var(--card-border);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 100px;
+    padding: 5px 13px;
+    transition: color .3s, border-color .3s;
+  }
+  .project-card:hover .project-tags span {
+    color: var(--accent-2);
+    border-color: rgba(0, 212, 255, 0.35);
+  }
+
   /* ---------- Stack layers ---------- */
   .layers { display: grid; gap: 18px; }
   .layer {
@@ -568,6 +665,7 @@
   <div class="nav-links">
     <a href="#about">Обо мне</a>
     <a href="#skills">Стек</a>
+    <a href="#projects">Проекты</a>
     <a href="#how">Подход</a>
     <a href="#contact">Контакты</a>
   </div>
@@ -577,7 +675,7 @@
   <!-- HERO -->
   <header class="hero">
     <div class="hero-badge"><span class="pulse-dot"></span> Открыт к интересным проектам</div>
-    <h1>Привет, я <span class="gradient-text">h1nigami</span><br>Fullstack&nbsp;разработчик</h1>
+    <h1>Привет, я <span class="gradient-text">Иван</span><br>Fullstack&nbsp;разработчик</h1>
     <p class="typed-line">Пишу на <span class="typed" id="typed"></span><span class="caret"></span></p>
     <div class="hero-cta">
       <a href="#contact" class="btn btn-primary magnetic">Связаться со мной</a>
@@ -593,6 +691,7 @@
         <span class="section-tag">Обо мне</span>
         <h2 class="section-title">Код от базы данных<br>до <span class="gradient-text">пикселя на экране</span></h2>
         <p>Я fullstack-разработчик и закрываю весь цикл разработки: проектирую API и сервисы на <strong>Go</strong> и <strong>Python</strong>, а интерфейсы собираю на <strong>TypeScript</strong> и <strong>React</strong>.</p>
+        <p>Специализируюсь на сложных индустриальных задачах: <strong>видеоаналитика в реальном времени</strong>, <strong>геосервисы</strong> и <strong>транспортная телематика</strong> — работаю с протоколами JT808, JT1078 и CMSV6 на уровне байтов.</p>
         <p>Люблю чистую архитектуру, быстрые ответы сервера и интерфейсы, которыми приятно пользоваться. Верю, что хороший продукт — это когда технологии не заметны, а всё просто работает.</p>
       </div>
       <div class="stats">
@@ -646,7 +745,55 @@
 
     <div class="marquee-wrap reveal">
       <div class="marquee" id="marquee">
-        <span>Go</span><span>Python</span><span>TypeScript</span><span>React</span><span>PostgreSQL</span><span>Docker</span><span>gRPC</span><span>REST API</span><span>FastAPI</span><span>Redis</span><span>Git</span><span>Linux</span><span>CI/CD</span><span>WebSocket</span>
+        <span>Go</span><span>Python</span><span>TypeScript</span><span>React</span><span>PostgreSQL</span><span>Docker</span><span>gRPC</span><span>REST API</span><span>FastAPI</span><span>Redis</span><span>Git</span><span>Linux</span><span>CI/CD</span><span>WebSocket</span><span>Computer Vision</span><span>JT808</span><span>JT1078</span><span>CMSV6</span><span>Геокодинг</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <span class="section-tag reveal">Проекты</span>
+    <h2 class="section-title reveal">Чем я <span class="gradient-text">горжусь</span></h2>
+    <p class="section-sub reveal">Реальные индустриальные задачи: компьютерное зрение, геоданные и транспортная телематика.</p>
+
+    <div class="projects-grid">
+      <div class="project-card tilt reveal reveal-d1">
+        <div class="project-head">
+          <div class="project-emoji">🦺</div>
+          <h3>Видеоаналитика СИЗ в реальном времени</h3>
+        </div>
+        <p>Система компьютерного зрения, которая в реальном времени контролирует наличие средств индивидуальной защиты на сотрудниках по видеопотоку и помогает предотвращать нарушения техники безопасности на производстве.</p>
+        <div class="project-tags"><span>Computer Vision</span><span>Real-time</span><span>Python</span><span>Видеопотоки</span></div>
+      </div>
+
+      <div class="project-card tilt reveal reveal-d2">
+        <div class="project-head">
+          <div class="project-emoji">🗺️</div>
+          <h3>Собственный геокодер</h3>
+        </div>
+        <p>Сервис геокодирования собственной разработки: превращает адреса в координаты и обратно — без зависимости от внешних платных API, с полным контролем над качеством и скоростью поиска.</p>
+        <div class="project-tags"><span>Геоданные</span><span>Поиск</span><span>REST API</span><span>Highload</span></div>
+      </div>
+
+      <div class="project-card tilt reveal reveal-d3">
+        <div class="project-head">
+          <div class="project-emoji">🏭</div>
+          <div>
+            <h3>Операционная платформа для предприятий</h3>
+            <span class="project-status"><span class="pulse-dot"></span> в активной разработке</span>
+          </div>
+        </div>
+        <p>Единая платформа, объединяющая управление транспортом, персоналом и видеонаблюдением предприятия в одном контуре: мониторинг, аналитика и контроль в реальном времени.</p>
+        <div class="project-tags"><span>Транспорт</span><span>Персонал</span><span>Видеонаблюдение</span><span>Микросервисы</span></div>
+      </div>
+
+      <div class="project-card tilt reveal reveal-d4">
+        <div class="project-head">
+          <div class="project-emoji">📡</div>
+          <h3>Телематика: JT808 · JT1078 · CMSV6</h3>
+        </div>
+        <p>Работа с протоколами GPS-трекеров и автомобильных видеорегистраторов на уровне бинарных пакетов: телеметрия, трансляция видео с бортовых камер, интеграция с платформами мониторинга.</p>
+        <div class="project-tags"><span>JT808</span><span>JT1078</span><span>CMSV6</span><span>TCP</span><span>Видеостриминг</span></div>
       </div>
     </div>
   </section>
@@ -688,7 +835,7 @@
 </main>
 
 <footer>
-  © 2026 h1nigami · Сделано с ❤️ на чистом HTML/CSS/JS · <a href="https://github.com/h1nigami/about" target="_blank" rel="noopener">исходники</a>
+  © 2026 Иван (h1nigami) · Сделано с ❤️ на чистом HTML/CSS/JS · <a href="https://github.com/h1nigami/about" target="_blank" rel="noopener">исходники</a>
 </footer>
 
 <script>
@@ -775,7 +922,7 @@
     requestAnimationFrame(followRing);
   })();
 
-  document.querySelectorAll('a, button, .skill-card, .stat-card, .layer').forEach(el => {
+  document.querySelectorAll('a, button, .skill-card, .stat-card, .layer, .project-card').forEach(el => {
     el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
     el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
   });
