@@ -23,6 +23,7 @@
     --react: #61dafb;
     --radius: 20px;
     --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'JetBrains Mono', Consolas, monospace;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -45,30 +46,176 @@
 
   ::selection { background: rgba(108, 92, 231, 0.5); color: #fff; }
 
-  /* ---------- Custom cursor ---------- */
+  /* ---------- Custom cursor (crosshair) ---------- */
   .cursor-dot, .cursor-ring {
     position: fixed;
     top: 0; left: 0;
     pointer-events: none;
-    border-radius: 50%;
     z-index: 9999;
     transform: translate(-50%, -50%);
   }
-  .cursor-dot {
-    width: 8px; height: 8px;
-    background: var(--accent-2);
-    box-shadow: 0 0 12px var(--accent-2);
+  .cursor-dot { width: 22px; height: 22px; }
+  .cursor-dot::before, .cursor-dot::after {
+    content: '';
+    position: absolute;
+    background: var(--accent-3);
+    box-shadow: 0 0 8px rgba(0, 255, 163, 0.8);
   }
+  .cursor-dot::before { left: 0; right: 0; top: 50%; height: 1.5px; transform: translateY(-50%); }
+  .cursor-dot::after { top: 0; bottom: 0; left: 50%; width: 1.5px; transform: translateX(-50%); }
   .cursor-ring {
-    width: 36px; height: 36px;
-    border: 1.5px solid rgba(0, 212, 255, 0.45);
+    width: 38px; height: 38px;
+    border: 1.5px solid rgba(0, 255, 163, 0.4);
+    border-radius: 6px;
     transition: width .25s ease, height .25s ease, border-color .25s ease, background .25s ease;
   }
   .cursor-ring.hovering {
-    width: 60px; height: 60px;
-    border-color: rgba(0, 255, 163, 0.7);
+    width: 62px; height: 62px;
+    border-color: rgba(0, 255, 163, 0.85);
     background: rgba(0, 255, 163, 0.06);
   }
+
+  /* ---------- Boot overlay ---------- */
+  #boot {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: #05070d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .5s ease, visibility .5s;
+  }
+  #boot.done { opacity: 0; visibility: hidden; }
+  .boot-lines {
+    font-family: var(--mono);
+    color: var(--accent-3);
+    font-size: clamp(.78rem, 2.4vw, .98rem);
+    line-height: 2;
+    width: min(560px, 84vw);
+  }
+  .boot-lines div::before { content: '> '; opacity: .55; }
+  .boot-lines .ok::after { content: ' OK'; color: var(--accent-2); }
+
+  /* ---------- HUD ---------- */
+  .hud-corner {
+    position: fixed;
+    width: 20px; height: 20px;
+    z-index: 90;
+    pointer-events: none;
+    opacity: .45;
+  }
+  .hc-tl { top: 10px; left: 10px; border-top: 2px solid var(--accent-3); border-left: 2px solid var(--accent-3); }
+  .hc-tr { top: 10px; right: 10px; border-top: 2px solid var(--accent-3); border-right: 2px solid var(--accent-3); }
+  .hc-bl { bottom: 40px; left: 10px; border-bottom: 2px solid var(--accent-3); border-left: 2px solid var(--accent-3); }
+  .hc-br { bottom: 40px; right: 10px; border-bottom: 2px solid var(--accent-3); border-right: 2px solid var(--accent-3); }
+
+  .hud-bar {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 95;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 6px 16px;
+    font-family: var(--mono);
+    font-size: .72rem;
+    color: var(--text-dim);
+    background: rgba(5, 8, 14, 0.85);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(0, 255, 163, 0.15);
+  }
+  .hud-rec {
+    color: var(--accent-3);
+    display: inline-flex;
+    gap: 7px;
+    align-items: center;
+    white-space: nowrap;
+  }
+  .rec-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #ff4757;
+    animation: blink 1.2s step-end infinite;
+  }
+  .hud-log { flex: 1; overflow: hidden; white-space: nowrap; }
+  #hudLog { transition: opacity .25s; }
+  .hud-clock { white-space: nowrap; color: var(--accent-2); }
+  @media (max-width: 640px) { .hud-log { display: none; } }
+
+  /* ---------- Scanline ---------- */
+  .scanfx {
+    position: fixed;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 3px);
+  }
+  .scanline {
+    position: fixed;
+    left: 0; right: 0;
+    height: 90px;
+    z-index: 3;
+    pointer-events: none;
+    background: linear-gradient(180deg, transparent, rgba(0, 255, 163, 0.045), transparent);
+    animation: scanMove 8s linear infinite;
+  }
+  @keyframes scanMove { from { top: -12%; } to { top: 112%; } }
+
+  /* ---------- Detection boxes ---------- */
+  .bbox { position: relative; display: inline-block; padding: 20px 30px; }
+  .bbox .c { position: absolute; width: 20px; height: 20px; }
+  .c.tl { top: 0; left: 0; border-top: 2px solid var(--accent-3); border-left: 2px solid var(--accent-3); }
+  .c.tr { top: 0; right: 0; border-top: 2px solid var(--accent-3); border-right: 2px solid var(--accent-3); }
+  .c.bl { bottom: 0; left: 0; border-bottom: 2px solid var(--accent-3); border-left: 2px solid var(--accent-3); }
+  .c.br { bottom: 0; right: 0; border-bottom: 2px solid var(--accent-3); border-right: 2px solid var(--accent-3); }
+  .bbox-tag {
+    position: absolute;
+    top: -10px; left: 0;
+    transform: translateY(-100%);
+    font-family: var(--mono);
+    font-size: .74rem;
+    font-weight: 700;
+    color: #05070d;
+    background: var(--accent-3);
+    padding: 3px 12px;
+    border-radius: 4px;
+    white-space: nowrap;
+    box-shadow: 0 0 20px rgba(0, 255, 163, 0.35);
+  }
+  .hero-bbox {
+    opacity: 0;
+    animation: fadeUp .9s .35s cubic-bezier(.22, 1, .36, 1) forwards;
+  }
+
+  .card-tag {
+    position: absolute;
+    top: 12px; right: 14px;
+    font-family: var(--mono);
+    font-size: .67rem;
+    font-weight: 600;
+    color: var(--accent-3);
+    background: rgba(0, 255, 163, 0.08);
+    border: 1px solid rgba(0, 255, 163, 0.25);
+    padding: 3px 9px;
+    border-radius: 4px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .card-c {
+    position: absolute;
+    width: 13px; height: 13px;
+    z-index: 2;
+    pointer-events: none;
+    opacity: .55;
+    transition: opacity .3s, width .3s, height .3s;
+  }
+  .card-c.tl { top: 7px; left: 7px; border-top: 2px solid var(--accent-3); border-left: 2px solid var(--accent-3); }
+  .card-c.tr { top: 7px; right: 7px; border-top: 2px solid var(--accent-3); border-right: 2px solid var(--accent-3); }
+  .card-c.bl { bottom: 7px; left: 7px; border-bottom: 2px solid var(--accent-3); border-left: 2px solid var(--accent-3); }
+  .card-c.br { bottom: 7px; right: 7px; border-bottom: 2px solid var(--accent-3); border-right: 2px solid var(--accent-3); }
+  [data-tag]:hover .card-c { opacity: 1; width: 17px; height: 17px; }
+  .project-card .project-head { padding-right: 104px; }
 
   /* ---------- Background ---------- */
   #particles {
@@ -190,8 +337,6 @@
     font-weight: 900;
     letter-spacing: -2px;
     line-height: 1.08;
-    opacity: 0;
-    animation: fadeUp .9s .35s cubic-bezier(.22, 1, .36, 1) forwards;
   }
   .gradient-text {
     background: linear-gradient(120deg, #6c5ce7 0%, #00d4ff 50%, #00ffa3 100%);
@@ -657,7 +802,7 @@
 
   footer {
     text-align: center;
-    padding: 34px 20px;
+    padding: 34px 20px 64px;
     color: var(--text-dim);
     font-size: .88rem;
     border-top: 1px solid var(--card-border);
@@ -674,13 +819,29 @@
     body { cursor: auto; }
     .cursor-dot, .cursor-ring { display: none; }
     .reveal { opacity: 1; transform: none; }
+    #boot, .scanline { display: none; }
+    .hero-bbox { opacity: 1; }
   }
 </style>
 </head>
 <body>
 
+<div id="boot"><div class="boot-lines" id="bootLines"></div></div>
+
 <div class="cursor-dot"></div>
 <div class="cursor-ring"></div>
+
+<div class="hud-corner hc-tl"></div>
+<div class="hud-corner hc-tr"></div>
+<div class="hud-corner hc-bl"></div>
+<div class="hud-corner hc-br"></div>
+<div class="scanfx"></div>
+<div class="scanline"></div>
+<div class="hud-bar">
+  <span class="hud-rec"><span class="rec-dot"></span>REC · PORTFOLIO_CAM-01</span>
+  <div class="hud-log"><span id="hudLog"></span></div>
+  <span class="hud-clock" id="hudClock"></span>
+</div>
 
 <canvas id="particles"></canvas>
 <div class="orb orb-1"></div>
@@ -702,7 +863,11 @@
   <!-- HERO -->
   <header class="hero">
     <div class="hero-badge"><span class="pulse-dot"></span> Открыт к интересным проектам</div>
-    <h1>Привет, я <span class="gradient-text">Иван</span><br>Fullstack&nbsp;разработчик</h1>
+    <div class="bbox hero-bbox">
+      <span class="bbox-tag">ivan_fullstack: 0.99</span>
+      <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+      <h1>Привет, я <span class="gradient-text">Иван</span><br>Fullstack&nbsp;разработчик</h1>
+    </div>
     <p class="typed-line">Пишу на <span class="typed" id="typed"></span><span class="caret"></span></p>
     <div class="hero-cta">
       <a href="#contact" class="btn btn-primary magnetic">Связаться со мной</a>
@@ -737,14 +902,14 @@
     <p class="section-sub reveal">Четыре основных инструмента — и всё, что нужно вокруг них: от очередей и time-series баз до обучения ML-моделей.</p>
 
     <div class="skills-grid">
-      <div class="skill-card tilt reveal reveal-d1" data-color="go">
+      <div class="skill-card tilt reveal reveal-d1" data-color="go" data-tag="go: 0.90">
         <div class="skill-icon">GO</div>
         <h3>Go</h3>
         <p>Микросервисы, gRPC, конкурентность, высоконагруженные API.</p>
         <div class="skill-bar"><div class="skill-bar-fill" data-width="90%"></div></div>
       </div>
 
-      <div class="skill-card tilt reveal reveal-d2" data-color="py">
+      <div class="skill-card tilt reveal reveal-d2" data-color="py" data-tag="python: 0.92">
         <div class="skill-icon">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.9 1c-1 0-1.9.1-2.7.2C6.8 1.7 6.4 2.6 6.4 4.4v2.2h5.6v.8H4.3c-1.7 0-3.1 1-3.5 2.9-.5 2.2-.5 3.5 0 5.8.4 1.7 1.3 2.9 3 2.9h1.9v-2.6c0-1.9 1.6-3.5 3.5-3.5h5.6c1.6 0 2.8-1.3 2.8-2.8V4.4c0-1.5-1.3-2.7-2.8-2.9-1-.2-2-.3-2.9-.5zM8.9 2.9c.6 0 1.1.5 1.1 1.1s-.5 1-1.1 1-1.1-.5-1.1-1 .5-1.1 1.1-1.1z"/><path d="M18.4 7.4v2.5c0 2-1.7 3.6-3.5 3.6H9.3c-1.5 0-2.8 1.3-2.8 2.8v5.3c0 1.5 1.3 2.4 2.8 2.8 1.8.5 3.4.6 5.6 0 1.4-.4 2.8-1.2 2.8-2.8v-2.1h-5.6v-.8h8.4c1.6 0 2.2-1.1 2.8-2.9.6-1.8.6-3.5 0-5.8-.4-1.6-1.2-2.9-2.8-2.9h-2.1zm-3.1 13.4c.6 0 1.1.5 1.1 1s-.5 1.1-1.1 1.1-1.1-.5-1.1-1.1.5-1 1.1-1z"/></svg>
         </div>
@@ -753,14 +918,14 @@
         <div class="skill-bar"><div class="skill-bar-fill" data-width="92%"></div></div>
       </div>
 
-      <div class="skill-card tilt reveal reveal-d3" data-color="ts">
+      <div class="skill-card tilt reveal reveal-d3" data-color="ts" data-tag="typescript: 0.88">
         <div class="skill-icon">TS</div>
         <h3>TypeScript</h3>
         <p>Строгая типизация, Node.js, масштабируемая кодовая база.</p>
         <div class="skill-bar"><div class="skill-bar-fill" data-width="88%"></div></div>
       </div>
 
-      <div class="skill-card tilt reveal reveal-d4" data-color="react">
+      <div class="skill-card tilt reveal reveal-d4" data-color="react" data-tag="react: 0.90">
         <div class="skill-icon">
           <svg class="react-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg>
         </div>
@@ -771,14 +936,14 @@
     </div>
 
     <div class="tech-groups">
-      <div class="tech-group reveal reveal-d1">
+      <div class="tech-group reveal reveal-d1" data-tag="backend_stack: 0.93">
         <h3>⚙️ Backend и данные</h3>
         <p>Телеметрия транспорта и события с камер требуют правильного инструмента под каждую задачу: очереди — для потоков событий, time-series база — для метрик, кеш — для скорости.</p>
         <div class="project-tags">
           <span>Kafka</span><span>Redis</span><span>TimescaleDB</span><span>PostgreSQL</span><span>Docker</span><span>gRPC</span><span>WebSocket</span><span>Nginx</span><span>CI/CD</span><span>Linux</span>
         </div>
       </div>
-      <div class="tech-group reveal reveal-d2">
+      <div class="tech-group reveal reveal-d2" data-tag="ml_cv: 0.91">
         <h3>🧠 ML и Computer Vision</h3>
         <p>Обучал модели для продакшена: детекция СИЗ на видеопотоке — от сбора и разметки датасета до инференса в реальном времени. Понимаю ML-задачи и умею доводить их до работающего сервиса.</p>
         <div class="project-tags">
@@ -801,7 +966,7 @@
     <p class="section-sub reveal">Реальные индустриальные задачи: компьютерное зрение, геоданные и транспортная телематика.</p>
 
     <div class="projects-grid">
-      <div class="project-card tilt reveal reveal-d1">
+      <div class="project-card tilt reveal reveal-d1" data-tag="ppe_detection: 0.97">
         <div class="project-head">
           <div class="project-emoji">🦺</div>
           <h3>Видеоаналитика СИЗ в реальном времени</h3>
@@ -810,7 +975,7 @@
         <div class="project-tags"><span>Computer Vision</span><span>Real-time</span><span>Python</span><span>Видеопотоки</span></div>
       </div>
 
-      <div class="project-card tilt reveal reveal-d2">
+      <div class="project-card tilt reveal reveal-d2" data-tag="geocoder: 0.95">
         <div class="project-head">
           <div class="project-emoji">🗺️</div>
           <h3>Собственный геокодер</h3>
@@ -819,7 +984,7 @@
         <div class="project-tags"><span>Геоданные</span><span>Поиск</span><span>REST API</span><span>Highload</span></div>
       </div>
 
-      <div class="project-card tilt reveal reveal-d3">
+      <div class="project-card tilt reveal reveal-d3" data-tag="ops_platform: wip">
         <div class="project-head">
           <div class="project-emoji">🏭</div>
           <div>
@@ -831,7 +996,7 @@
         <div class="project-tags"><span>Транспорт</span><span>Персонал</span><span>Видеонаблюдение</span><span>Микросервисы</span></div>
       </div>
 
-      <div class="project-card tilt reveal reveal-d4">
+      <div class="project-card tilt reveal reveal-d4" data-tag="telematics: 0.96">
         <div class="project-head">
           <div class="project-emoji">📡</div>
           <h3>Телематика: JT808 · JT1078 · CMSV6</h3>
@@ -1075,6 +1240,81 @@
   /* ---------- Marquee: duplicate content for seamless loop ---------- */
   const marquee = document.getElementById('marquee');
   marquee.innerHTML += marquee.innerHTML;
+
+  /* ---------- Boot sequence ---------- */
+  const boot = document.getElementById('boot');
+  if (reduceMotion || sessionStorage.getItem('booted')) {
+    boot.classList.add('done');
+  } else {
+    const bootMsgs = [
+      ['инициализация системы...', true],
+      ['загрузка модели ivan_fullstack_v5...', true],
+      ['детекция навыков: go · python · typescript · react [4/4]', false],
+      ['запуск портфолио ▶', false]
+    ];
+    const wrap = document.getElementById('bootLines');
+    bootMsgs.forEach(([text, ok], i) => {
+      setTimeout(() => {
+        const d = document.createElement('div');
+        d.textContent = text;
+        if (ok) d.classList.add('ok');
+        wrap.appendChild(d);
+      }, 330 * i);
+    });
+    const finish = () => {
+      boot.classList.add('done');
+      try { sessionStorage.setItem('booted', '1'); } catch (e) {}
+    };
+    setTimeout(finish, 330 * bootMsgs.length + 650);
+    boot.addEventListener('click', finish);
+  }
+
+  /* ---------- HUD clock & live log ---------- */
+  const clockEl = document.getElementById('hudClock');
+  const tickClock = () => { clockEl.textContent = new Date().toLocaleString('ru-RU'); };
+  tickClock();
+  setInterval(tickClock, 1000);
+
+  const logEl = document.getElementById('hudLog');
+  const logMsgs = [
+    'detection: каска ✓ conf 0.98',
+    'jt808: heartbeat от борта #A317',
+    'geocoder: «Тверская, 1» → 55.7575, 37.6136',
+    'detection: жилет ✓ conf 0.96',
+    'kafka: обработано 1 024 события (lag 0)',
+    'jt1078: открыт видеопоток, канал 2',
+    'timescaledb: батч 500 строк за 3 мс',
+    'ml: epoch 12/50, loss 0.043',
+    'redis: cache hit 99.2%',
+    'cmsv6: устройство на связи',
+    'react: интерфейс отрисован за 16 мс',
+    'go: goroutines активны, паник нет 😌'
+  ];
+  let li = Math.floor(Math.random() * logMsgs.length);
+  const nextLog = () => {
+    const t = new Date().toLocaleTimeString('ru-RU');
+    logEl.style.opacity = 0;
+    setTimeout(() => {
+      logEl.textContent = '[' + t + '] ' + logMsgs[li % logMsgs.length];
+      logEl.style.opacity = 1;
+      li++;
+    }, 250);
+  };
+  nextLog();
+  setInterval(nextLog, 2800);
+
+  /* ---------- Detection tags on cards ---------- */
+  document.querySelectorAll('[data-tag]').forEach(card => {
+    const t = document.createElement('span');
+    t.className = 'card-tag';
+    t.textContent = card.dataset.tag;
+    card.appendChild(t);
+    ['tl', 'tr', 'bl', 'br'].forEach(p => {
+      const i = document.createElement('i');
+      i.className = 'card-c ' + p;
+      card.appendChild(i);
+    });
+  });
 })();
 </script>
 </body>
