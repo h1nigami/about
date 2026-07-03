@@ -21,6 +21,7 @@
     --py: #ffd43b;
     --ts: #3178c6;
     --react: #61dafb;
+    --cs: #b48ce8;
     --radius: 20px;
     --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'JetBrains Mono', Consolas, monospace;
@@ -527,7 +528,7 @@
   /* ---------- Skills ---------- */
   .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
     gap: 22px;
     perspective: 1200px;
   }
@@ -558,6 +559,7 @@
   .skill-card[data-color="py"]:hover    { border-color: rgba(255, 212, 59, .55); }
   .skill-card[data-color="ts"]:hover    { border-color: rgba(49, 120, 198, .65); }
   .skill-card[data-color="react"]:hover { border-color: rgba(97, 218, 251, .55); }
+  .skill-card[data-color="cs"]:hover    { border-color: rgba(180, 140, 232, .55); }
 
   .skill-icon {
     width: 58px; height: 58px;
@@ -574,6 +576,7 @@
   .skill-card[data-color="py"] .skill-icon    { background: rgba(255, 212, 59, .12); color: var(--py); box-shadow: 0 0 24px rgba(255,212,59,.12); }
   .skill-card[data-color="ts"] .skill-icon    { background: rgba(49, 120, 198, .18); color: #6aa9e9; box-shadow: 0 0 24px rgba(49,120,198,.18); }
   .skill-card[data-color="react"] .skill-icon { background: rgba(97, 218, 251, .12); color: var(--react); box-shadow: 0 0 24px rgba(97,218,251,.14); }
+  .skill-card[data-color="cs"] .skill-icon    { background: rgba(180, 140, 232, .14); color: var(--cs); box-shadow: 0 0 24px rgba(180,140,232,.15); }
   .skill-icon svg { width: 32px; height: 32px; }
   .react-spin { animation: spin 9s linear infinite; transform-origin: center; }
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -597,11 +600,12 @@
   .skill-card[data-color="py"] .skill-bar-fill    { background: linear-gradient(90deg, #306998, var(--py)); }
   .skill-card[data-color="ts"] .skill-bar-fill    { background: linear-gradient(90deg, #235a97, #6aa9e9); }
   .skill-card[data-color="react"] .skill-bar-fill { background: linear-gradient(90deg, #21a1c4, var(--react)); }
+  .skill-card[data-color="cs"] .skill-bar-fill    { background: linear-gradient(90deg, #68217a, var(--cs)); }
 
   /* ---------- Tech groups ---------- */
   .tech-groups {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
     gap: 22px;
     margin-top: 22px;
   }
@@ -910,12 +914,12 @@
       <div class="about-text reveal">
         <span class="section-tag">Обо мне</span>
         <h2 class="section-title">Код от базы данных<br>до <span class="gradient-text">пикселя на экране</span></h2>
-        <p>Я fullstack-разработчик и закрываю весь цикл разработки: проектирую API и сервисы на <strong>Go</strong> и <strong>Python</strong>, а интерфейсы собираю на <strong>TypeScript</strong> и <strong>React</strong>.</p>
+        <p>Я fullstack-разработчик и закрываю весь цикл разработки: проектирую API и сервисы на <strong>Go</strong>, <strong>Python</strong> и <strong>C#</strong>, интерфейсы собираю на <strong>TypeScript</strong> и <strong>React</strong>, а десктоп — на <strong>WPF</strong> и <strong>Avalonia</strong>.</p>
         <p>Специализируюсь на сложных индустриальных задачах: <strong>видеоаналитика в реальном времени</strong>, <strong>геосервисы</strong> и <strong>транспортная телематика</strong> — работаю с протоколами JT808, JT1078 и CMSV6 на уровне байтов. Обучаю <strong>ML-модели</strong> под задачи компьютерного зрения и довожу их до продакшена.</p>
         <p>Люблю чистую архитектуру, быстрые ответы сервера и интерфейсы, которыми приятно пользоваться. Верю, что хороший продукт — это когда технологии не заметны, а всё просто работает.</p>
       </div>
       <div class="stats">
-        <div class="stat-card reveal reveal-d1"><div class="stat-num" data-count="4">0</div><div class="stat-label">языка и фреймворка в стеке</div></div>
+        <div class="stat-card reveal reveal-d1"><div class="stat-num" data-count="5">0</div><div class="stat-label">языков и фреймворков в стеке</div></div>
         <div class="stat-card reveal reveal-d2"><div class="stat-num" data-count="100" data-suffix="%">0</div><div class="stat-label">вовлечённости в проект</div></div>
         <div class="stat-card reveal reveal-d3"><div class="stat-num" data-count="24" data-suffix="/7">0</div><div class="stat-label">люблю то, что делаю</div></div>
         <div class="stat-card reveal reveal-d4"><div class="stat-num" data-count="1">0</div><div class="stat-label">клик до связи со мной</div></div>
@@ -927,7 +931,7 @@
   <section id="skills">
     <span class="section-tag reveal">Технологии</span>
     <h2 class="section-title reveal">Мой стек</h2>
-    <p class="section-sub reveal">Четыре основных инструмента — и всё, что нужно вокруг них: от очередей и time-series баз до обучения ML-моделей.</p>
+    <p class="section-sub reveal">Пять основных инструментов — и всё, что нужно вокруг них: от очередей и time-series баз до обучения ML-моделей и десктопа.</p>
 
     <div class="skills-grid">
       <div class="skill-card tilt reveal reveal-d1" data-color="go" data-tag="go: 0.90">
@@ -961,6 +965,13 @@
         <p>SPA, хуки, анимации, состояние, современный UI/UX.</p>
         <div class="skill-bar"><div class="skill-bar-fill" data-width="90%"></div></div>
       </div>
+
+      <div class="skill-card tilt reveal reveal-d1" data-color="cs" data-tag="csharp: 0.88">
+        <div class="skill-icon">C#</div>
+        <h3>C# / .NET</h3>
+        <p>ASP.NET Core, Entity Framework, Dapper, десктоп на WPF и Avalonia.</p>
+        <div class="skill-bar"><div class="skill-bar-fill" data-width="88%"></div></div>
+      </div>
     </div>
 
     <div class="tech-groups">
@@ -978,11 +989,18 @@
           <span>Обучение моделей</span><span>Детекция объектов</span><span>OpenCV</span><span>Датасеты и разметка</span><span>Real-time инференс</span>
         </div>
       </div>
+      <div class="tech-group reveal reveal-d3" data-tag="dotnet: 0.88">
+        <h3>🖥️ C# и .NET</h3>
+        <p>Веб-сервисы на ASP.NET Core, работа с данными через Entity Framework и Dapper, десктоп-приложения на WPF и кроссплатформенные — на Avalonia.</p>
+        <div class="project-tags">
+          <span>ASP.NET Core</span><span>Entity Framework</span><span>Dapper</span><span>LINQ</span><span>WPF</span><span>Avalonia</span><span>XAML</span><span>NuGet</span>
+        </div>
+      </div>
     </div>
 
     <div class="marquee-wrap reveal">
       <div class="marquee" id="marquee">
-        <span>Go</span><span>Python</span><span>TypeScript</span><span>React</span><span>PostgreSQL</span><span>Docker</span><span>gRPC</span><span>REST API</span><span>FastAPI</span><span>Redis</span><span>Git</span><span>Linux</span><span>CI/CD</span><span>WebSocket</span><span>Computer Vision</span><span>JT808</span><span>JT1078</span><span>CMSV6</span><span>Геокодинг</span><span>Kafka</span><span>TimescaleDB</span><span>OpenCV</span><span>ML</span>
+        <span>Go</span><span>Python</span><span>TypeScript</span><span>React</span><span>PostgreSQL</span><span>Docker</span><span>gRPC</span><span>REST API</span><span>FastAPI</span><span>Redis</span><span>Git</span><span>Linux</span><span>CI/CD</span><span>WebSocket</span><span>Computer Vision</span><span>JT808</span><span>JT1078</span><span>CMSV6</span><span>Геокодинг</span><span>Kafka</span><span>TimescaleDB</span><span>OpenCV</span><span>ML</span><span>C#</span><span>ASP.NET Core</span><span>Entity Framework</span><span>Dapper</span><span>WPF</span><span>Avalonia</span>
       </div>
     </div>
   </section>
@@ -1044,11 +1062,11 @@
     <div class="layers">
       <div class="layer reveal reveal-d1">
         <div class="layer-emoji">🎨</div>
-        <div><h3>Frontend — React + TypeScript</h3><p>Отзывчивые интерфейсы, плавные анимации, продуманный UX и строгие типы.</p></div>
+        <div><h3>Frontend и десктоп — React + TypeScript, WPF, Avalonia</h3><p>Отзывчивые веб-интерфейсы со строгими типами и нативные десктоп-приложения — в том числе кроссплатформенные.</p></div>
       </div>
       <div class="layer reveal reveal-d2">
         <div class="layer-emoji">⚙️</div>
-        <div><h3>Backend — Go + Python</h3><p>Быстрые API, микросервисы, очереди, интеграции. Go — там, где нужна скорость, Python — где нужна гибкость.</p></div>
+        <div><h3>Backend — Go · Python · C#</h3><p>Быстрые API, микросервисы, очереди, интеграции. Go — там, где нужна скорость, Python — где нужна гибкость, ASP.NET Core — для корпоративных сервисов.</p></div>
       </div>
       <div class="layer reveal reveal-d3">
         <div class="layer-emoji">🗄️</div>
@@ -1166,7 +1184,7 @@
   });
 
   /* ---------- Typing effect ---------- */
-  const words = ['Go 🐹', 'Python 🐍', 'TypeScript 💙', 'React ⚛️'];
+  const words = ['Go 🐹', 'Python 🐍', 'TypeScript 💙', 'React ⚛️', 'C# 💜'];
   const typedEl = document.getElementById('typed');
   let wi = 0, ci = 0, deleting = false;
 
@@ -1277,7 +1295,7 @@
     const bootMsgs = [
       ['инициализация системы...', true],
       ['загрузка модели ivan_fullstack_v5...', true],
-      ['детекция навыков: go · python · typescript · react [4/4]', false],
+      ['детекция навыков: go · python · typescript · react · c# [5/5]', false],
       ['запуск портфолио ▶', false]
     ];
     const wrap = document.getElementById('bootLines');
@@ -1316,7 +1334,9 @@
     'redis: cache hit 99.2%',
     'cmsv6: устройство на связи',
     'react: интерфейс отрисован за 16 мс',
-    'go: goroutines активны, паник нет 😌'
+    'go: goroutines активны, паник нет 😌',
+    'asp.net: сервис отвечает за 12 мс',
+    'avalonia: десктоп собран под win/linux'
   ];
   let li = Math.floor(Math.random() * logMsgs.length);
   const nextLog = () => {
